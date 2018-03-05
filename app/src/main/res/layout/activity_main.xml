@@ -7,7 +7,6 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 android:paddingLeft="16dp"
 android:paddingRight="16dp"
-android:weightSum="5"
 tools:context="com.lau.laucianofa.imc_do_lau.MainActivity">
 
 <LinearLayout
@@ -22,7 +21,6 @@ tools:context="com.lau.laucianofa.imc_do_lau.MainActivity">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:weightSum="2"
     android:orientation="horizontal">
 
     <TextView
@@ -48,7 +46,6 @@ tools:context="com.lau.laucianofa.imc_do_lau.MainActivity">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:weightSum="2"
     android:orientation="horizontal">
 
     <EditText
@@ -75,7 +72,6 @@ tools:context="com.lau.laucianofa.imc_do_lau.MainActivity">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:weightSum="1"
     android:orientation="horizontal">
 
     <Button
@@ -92,6 +88,16 @@ tools:context="com.lau.laucianofa.imc_do_lau.MainActivity">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:orientation="horizontal"/>
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/resultadoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="" />
+
+</LinearLayout>
 
 </LinearLayout>

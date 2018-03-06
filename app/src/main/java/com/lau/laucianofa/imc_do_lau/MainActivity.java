@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    AlertDialog dialog;
-    AlertDialog.Builder builder;
-    Button calcular;
-    EditText peso, altura;
-    TextView resultado;
-    View popup;
+    AlertDialog alertDialog, nameDialog, resultDialog;
+    AlertDialog.Builder alertBuilder, nameBuilder, resultBuilder;
+    Button calcular, nomear;
+    EditText peso, altura, nome;
+    TextView alertView, resultView;
+    View alertPopup, namePopup, resultPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,29 +29,65 @@ public class MainActivity extends AppCompatActivity {
 
         calcular.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Definindo elementos de popup
-                builder = new AlertDialog.Builder(MainActivity.this);
-                popup = getLayoutInflater().inflate(R.layout.result_popup, null);
-                resultado = (TextView) popup.findViewById(R.id.resultadoTextView);
-
                 // Checando se usuário digitou peso e altura
                 if(peso.getText().toString().isEmpty() || altura.getText().toString().isEmpty()) {
-                    resultado.setText("Por favor, insira peso e altura.");
+                    // Definindo elementos de alertPopup para peso e altura
+                    alertBuilder = new AlertDialog.Builder(MainActivity.this);
+                    alertPopup = getLayoutInflater().inflate(R.layout.result_popup, null);
+                    alertView = (TextView) alertPopup.findViewById(R.id.resultadoTextView);
+                    alertView.setText("Por favor, insira peso e altura.");
+                    alertBuilder.setView(alertPopup);
+                    alertDialog = alertBuilder.create();
+                    alertDialog.show();
+
                 } else {
-                    // Declarando variáveis
-                    double imc, ps, al;
-                    // ps recebe peso em kg
-                    ps = Double.parseDouble(peso.getText().toString());
-                    // al recebe altura em m
-                    al = Double.parseDouble(altura.getText().toString()) / 100;
-                    // imc recebe calculo do imc
-                    imc = ps / (al * al);
-                    // Exibir resultado
-                    resultado.setText("Seu IMC é " + ((double) Math.round(imc * 10)) / 10);
+                    // Pedindo o nome do usuário
+                    nameBuilder = new AlertDialog.Builder(MainActivity.this);
+                    namePopup = getLayoutInflater().inflate(R.layout.name_popup, null);
+                    nome = (EditText) namePopup.findViewById(R.id.nameEditText);
+                    nomear = (Button) namePopup.findViewById(R.id.nameButton);
+                    // Implementando função do botão no pedido de nome
+                    nomear.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+
+                            // Definindo nome de usuário a ser exibido
+                            String usuario = "usuário";
+                            if(!nome.getText().toString().isEmpty())
+                                usuario = nome.getText().toString();
+
+                            // Cálculo de IMC
+                            // Declarando variáveis
+                            double imc, ps, al;
+                            // ps recebe peso em kg
+                            ps = Double.parseDouble(peso.getText().toString());
+                            // al recebe altura em m
+                            al = Double.parseDouble(altura.getText().toString()) / 100;
+                            // imc recebe calculo do IMC
+                            imc = ps / (al * al);
+
+                            // Exibir resultados
+                            resultBuilder = new AlertDialog.Builder(MainActivity.this);
+                            resultPopup = getLayoutInflater().inflate(R.layout.result_popup,
+                                    null);
+                            resultView = (TextView)
+                                    resultPopup.findViewById(R.id.resultadoTextView);
+                            resultView.setText("Olá, " + usuario + ", seu IMC é "
+                                    + ((double) Math.round(imc * 10)) / 10);
+                            resultBuilder.setView(resultPopup);
+                            resultDialog = resultBuilder.create();
+                            resultDialog.show();
+
+                            // Fechando pedido de nome
+                            nameDialog.dismiss();
+                        }
+                    });
+                    // Exibindo Pedido de Nome
+                    nameBuilder.setView(namePopup);
+                    nameDialog = nameBuilder.create();
+                    nameDialog.show();
+
+
                 }
-                builder.setView(popup);
-                dialog = builder.create();
-                dialog.show();
             }
         });
     }

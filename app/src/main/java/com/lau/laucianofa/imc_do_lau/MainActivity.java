@@ -14,12 +14,13 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    AlertDialog dialog;
-    AlertDialog.Builder builder;
-    Button calcular;
-    EditText peso, altura;
-    TextView alerta, resultado;
-    View popup;
+    AlertDialog alertDialog, nameDialog;
+    AlertDialog.Builder alertBuilder, nameBuilder;
+    Button calcular, nomear;
+    EditText peso, altura, nome;
+    String usuario;
+    TextView alertView, resultado;
+    View alertPopup, namePopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +42,55 @@ public class MainActivity extends AppCompatActivity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 // Checando se usuário digitou peso e altura
-                if(peso.getText().toString().isEmpty() || altura.getText().toString().isEmpty()) {
-                    // Definindo elementos de popup
-                    builder = new AlertDialog.Builder(MainActivity.this);
-                    popup = getLayoutInflater().inflate(R.layout.result_popup, null);
-                    alerta = (TextView) popup.findViewById(R.id.resultadoTextView);
-                    alerta.setText("Por favor, insira peso e altura.");
-                    builder.setView(popup);
-                    dialog = builder.create();
-                    dialog.show();
+                if (peso.getText().toString().isEmpty() || altura.getText().toString().isEmpty()) {
+                    // Definindo elementos de alertPopup para peso e altura
+                    alertBuilder = new AlertDialog.Builder(MainActivity.this);
+                    alertPopup = getLayoutInflater().inflate(R.layout.result_popup, null);
+                    alertView = (TextView) alertPopup.findViewById(R.id.resultadoTextView);
+                    alertView.setText("Por favor, insira peso e altura.");
+                    alertBuilder.setView(alertPopup);
+                    alertDialog = alertBuilder.create();
+                    alertDialog.show();
+
                 } else {
+                    // Cálculo de IMC
                     // Declarando variáveis
                     double imc, ps, al;
                     // ps recebe peso em kg
                     ps = Double.parseDouble(peso.getText().toString());
                     // al recebe altura em m
                     al = Double.parseDouble(altura.getText().toString()) / 100;
-                    // imc recebe calculo do imc
+                    // imc recebe calculo do IMC
                     imc = ps / (al * al);
-                    // Exibir resultado
-                    resultado.setText("Seu IMC é " + ((double) Math.round(imc * 10)) / 10);
+
+                    // Pedindo o nome do usuário
+                    usuario = "usuário";
+                    nameBuilder = new AlertDialog.Builder(MainActivity.this);
+                    namePopup = getLayoutInflater().inflate(R.layout.name_popup, null);
+                    nome = (EditText) namePopup.findViewById(R.id.nameEditText);
+                    nomear = (Button) namePopup.findViewById(R.id.nameButton);
+
+                    // Implementando função do botão no pedido de nome
+                    nomear.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            // Definindo nome de usuário a ser exibido
+                            if (!nome.getText().toString().isEmpty())
+                                usuario = nome.getText().toString();
+
+                            // Fechando pedido de nome
+                            nameDialog.dismiss();
+                        }
+                    });
+
+                    // Exibindo Pedido de Nome
+                    nameBuilder.setView(namePopup);
+                    nameDialog = nameBuilder.create();
+                    nameDialog.show();
+
+
+                    // Exibir resultados
+                    resultado.setText("Olá, " + usuario + ", seu IMC é "
+                            + ((double) Math.round(imc * 10)) / 10);
                 }
             }
         });

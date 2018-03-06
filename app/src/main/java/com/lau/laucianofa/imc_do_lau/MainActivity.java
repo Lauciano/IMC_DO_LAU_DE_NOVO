@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog alertDialog, nameDialog;
     AlertDialog.Builder alertBuilder, nameBuilder;
     Button calcular, nomear;
+    Double imc;
     EditText peso, altura, nome;
     String usuario;
     TextView alertView, resultado;
@@ -35,12 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         calcular.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Escondendo teclado virtual
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-
                 // Checando se usuário digitou peso e altura
                 if (peso.getText().toString().isEmpty() || altura.getText().toString().isEmpty()) {
                     // Definindo elementos de alertPopup para peso e altura
@@ -55,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // Cálculo de IMC
                     // Declarando variáveis
-                    double imc, ps, al;
+                    double ps, al;
                     // ps recebe peso em kg
                     ps = Double.parseDouble(peso.getText().toString());
                     // al recebe altura em m
@@ -76,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
                             // Definindo nome de usuário a ser exibido
                             if (!nome.getText().toString().isEmpty())
                                 usuario = nome.getText().toString();
+
+                            // Atualizar resultados
+                            resultado.setText("Olá, " + usuario + ", seu IMC é "
+                                    + ((double) Math.round(imc * 10)) / 10);
 
                             // Fechando pedido de nome
                             nameDialog.dismiss();

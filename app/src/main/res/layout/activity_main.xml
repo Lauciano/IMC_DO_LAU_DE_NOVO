@@ -35,7 +35,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Peso"
+                android:text="Peso (kg)"
                 android:textSize="20sp" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Altura"
+                android:text="Altura (cm)"
                 android:textSize="20sp" />
 
         </LinearLayout>
